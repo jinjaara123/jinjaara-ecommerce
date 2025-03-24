@@ -1,0 +1,98 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Account Header -->
+  <div class="text-center mb-12">
+    <h1 class="text-3xl font-playfair mb-4">My Account</h1>
+    <div class="flex justify-center space-x-4">
+      <a href="{{ routes.account_url }}" class="text-black hover:text-gray-600">Account Details</a>
+      <span class="text-gray-300">|</span>
+      <a href="{{ routes.account_logout_url }}" class="text-black hover:text-gray-600">Log Out</a>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Order History -->
+    <div class="lg:col-span-2">
+      <div class="bg-white p-6 rounded-lg shadow-sm">
+        <h2 class="text-2xl font-playfair mb-6">Order History</h2>
+        
+        {% if customer.orders.size > 0 %}
+          <div class="space-y-6">
+            {% for order in customer.orders %}
+              <div class="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
+                <div class="flex justify-between items-start mb-4">
+                  <div>
+                    <p class="font-medium">Order {{ order.name }}</p>
+                    <p class="text-sm text-gray-600">{{ order.created_at | date: "%B %d, %Y" }}</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-medium">{{ order.total_price | money }}</p>
+                    <p class="text-sm text-gray-600">{{ order.financial_status_label }}</p>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {% for line_item in order.line_items limit: 4 %}
+                    <div>
+                      {% if line_item.image %}
+                        <img src="{{ line_item.image | img_url: '120x120', crop: 'center' }}" 
+                             alt="{{ line_item.title }}"
+                             class="w-full h-auto">
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+
+                <div class="mt-4">
+                  <a href="{{ order.customer_url }}" 
+                     class="text-black hover:text-gray-600 text-sm">
+                    View Order Details →
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-gray-600">You haven't placed any orders yet.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Account Details -->
+    <div>
+      <div class="bg-white p-6 rounded-lg shadow-sm">
+        <h2 class="text-2xl font-playfair mb-6">Account Details</h2>
+        
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-medium">{{ customer.name }}</h3>
+            <p class="text-gray-600">{{ customer.email }}</p>
+          </div>
+
+          <div>
+            <h3 class="font-medium mb-2">Default Address</h3>
+            {% if customer.default_address %}
+              <p class="text-gray-600">
+                {{ customer.default_address.address1 }}<br>
+                {% if customer.default_address.address2 != "" %}
+                  {{ customer.default_address.address2 }}<br>
+                {% endif %}
+                {{ customer.default_address.city }}, {{ customer.default_address.province_code }}<br>
+                {{ customer.default_address.country }}<br>
+                {{ customer.default_address.zip }}
+              </p>
+            {% else %}
+              <p class="text-gray-600">No default address set.</p>
+            {% endif %}
+          </div>
+
+          <div>
+            <a href="{{ routes.account_addresses_url }}" 
+               class="text-black hover:text-gray-600">
+              View Addresses →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

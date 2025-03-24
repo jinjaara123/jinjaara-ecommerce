@@ -1,0 +1,135 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Order Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl font-playfair mb-4">Order {{ order.name }}</h1>
+      <p class="text-gray-600">Placed on {{ order.created_at | date: "%B %d, %Y" }}</p>
+    </div>
+
+    <!-- Order Status -->
+    <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <h3 class="font-medium mb-1">Order Status</h3>
+          <p class="text-gray-600">{{ order.financial_status_label }}</p>
+        </div>
+        <div>
+          <h3 class="font-medium mb-1">Payment Status</h3>
+          <p class="text-gray-600">{{ order.financial_status_label }}</p>
+        </div>
+        <div>
+          <h3 class="font-medium mb-1">Fulfillment Status</h3>
+          <p class="text-gray-600">{{ order.fulfillment_status_label }}</p>
+        </div>
+        <div>
+          <h3 class="font-medium mb-1">Total</h3>
+          <p class="text-gray-600">{{ order.total_price | money }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Order Items -->
+      <div class="lg:col-span-2">
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <h2 class="text-2xl font-playfair mb-6">Order Items</h2>
+
+          <div class="space-y-6">
+            {% for line_item in order.line_items %}
+              <div class="flex items-start {% unless forloop.last %}border-b border-gray-200 pb-6{% endunless %}">
+                <!-- Product Image -->
+                <div class="w-20 h-20 flex-shrink-0">
+                  {% if line_item.image %}
+                    <img src="{{ line_item.image | img_url: '120x120', crop: 'center' }}"
+                         alt="{{ line_item.title }}"
+                         class="w-full h-full object-cover">
+                  {% endif %}
+                </div>
+
+                <!-- Product Info -->
+                <div class="flex-grow ml-4">
+                  <h3 class="font-medium">{{ line_item.title }}</h3>
+                  {% if line_item.variant_title != 'Default Title' %}
+                    <p class="text-sm text-gray-600">{{ line_item.variant_title }}</p>
+                  {% endif %}
+                  <p class="text-sm text-gray-600">Quantity: {{ line_item.quantity }}</p>
+                </div>
+
+                <!-- Price -->
+                <div class="ml-4 text-right">
+                  <p class="font-medium">{{ line_item.price | money }}</p>
+                  {% if line_item.original_price != line_item.price %}
+                    <p class="text-sm text-gray-500 line-through">{{ line_item.original_price | money }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div>
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <h2 class="text-2xl font-playfair mb-6">Order Summary</h2>
+
+          <div class="space-y-2">
+            <div class="flex justify-between">
+              <span>Subtotal</span>
+              <span>{{ order.subtotal_price | money }}</span>
+            </div>
+
+            {% for discount in order.discounts %}
+              <div class="flex justify-between text-green-600">
+                <span>{{ discount.title }}</span>
+                <span>-{{ discount.amount | money }}</span>
+              </div>
+            {% endfor %}
+
+            <div class="flex justify-between">
+              <span>Shipping</span>
+              <span>{{ order.shipping_price | money }}</span>
+            </div>
+
+            {% if order.tax_price > 0 %}
+              <div class="flex justify-between">
+                <span>Tax</span>
+                <span>{{ order.tax_price | money }}</span>
+              </div>
+            {% endif %}
+
+            <div class="border-t border-gray-200 pt-2 mt-2">
+              <div class="flex justify-between font-medium">
+                <span>Total</span>
+                <span>{{ order.total_price | money }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="bg-white p-6 rounded-lg shadow-sm mt-8">
+          <h2 class="text-2xl font-playfair mb-6">Shipping Address</h2>
+          <p class="text-gray-600">
+            {{ order.shipping_address | format_address }}
+          </p>
+        </div>
+
+        <!-- Billing Address -->
+        <div class="bg-white p-6 rounded-lg shadow-sm mt-8">
+          <h2 class="text-2xl font-playfair mb-6">Billing Address</h2>
+          <p class="text-gray-600">
+            {{ order.billing_address | format_address }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back to Account -->
+    <div class="text-center mt-8">
+      <a href="{{ routes.account_url }}" class="text-black hover:text-gray-600">
+        ← Back to Account
+      </a>
+    </div>
+  </div>
+</div>
