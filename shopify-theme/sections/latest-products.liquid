@@ -1,0 +1,61 @@
+<section class="py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="font-playfair text-3xl text-center mb-12">{{ section.settings.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      {% for product in collections[section.settings.collection].products limit: section.settings.products_count %}
+        <div class="group">
+          <a href="{{ product.url }}" class="block">
+            <div class="relative overflow-hidden">
+              <img 
+                src="{{ product.featured_image | img_url: '400x400', crop: 'center' }}" 
+                alt="{{ product.title }}" 
+                class="w-full h-[400px] object-cover"
+              >
+              <div class="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
+                <button class="w-full bg-black text-white py-2 hover:bg-gray-800">Quick View</button>
+              </div>
+            </div>
+            <div class="mt-4">
+              <h3 class="font-medium">{{ product.title }}</h3>
+              <p class="text-gray-600">{{ product.price | money }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Latest Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Latest Products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "label": "Number of products to show",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Latest Products",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,49 @@
+<section id="featured-collection" class="py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="font-playfair text-3xl text-center mb-12">{{ section.settings.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      {% for product in collections[section.settings.collection].products limit: 4 %}
+        <div class="group">
+          <a href="{{ product.url }}" class="block">
+            <div class="relative overflow-hidden">
+              <img 
+                src="{{ product.featured_image | img_url: '400x400', crop: 'center' }}" 
+                alt="{{ product.title }}" 
+                class="w-full h-[400px] object-cover group-hover:scale-105 transition duration-500"
+              >
+              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                <h3 class="text-white font-medium">{{ product.title }}</h3>
+                <p class="text-white opacity-75">{{ product.price | money }}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection",
+      "category": "Collections"
+    }
+  ]
+}
+{% endschema %}

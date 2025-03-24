@@ -1,0 +1,82 @@
+<section class="bg-gray-100 py-12">
+  <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+    {% for block in section.blocks %}
+      <div>
+        <i class="{{ block.settings.icon_class }} text-3xl mb-4"></i>
+        <h3 class="font-medium mb-2">{{ block.settings.title }}</h3>
+        <p class="text-sm text-gray-600">{{ block.settings.description }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Features",
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon_class",
+          "label": "Icon Class (Font Awesome)",
+          "default": "fas fa-truck"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "On orders above ₹2999"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Features",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon_class": "fas fa-truck",
+            "title": "Free Shipping",
+            "description": "On orders above ₹2999"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_class": "fas fa-globe",
+            "title": "Worldwide Shipping",
+            "description": "Delivered to your doorstep"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_class": "fas fa-undo",
+            "title": "Easy Returns",
+            "description": "30-day return policy"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_class": "fas fa-wallet",
+            "title": "Cash On Delivery",
+            "description": "Available on all orders"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

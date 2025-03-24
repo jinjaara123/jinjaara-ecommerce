@@ -1,0 +1,82 @@
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="font-playfair text-3xl text-center mb-12">{{ section.settings.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {% for block in section.blocks %}
+        <div class="relative group cursor-pointer">
+          <a href="{{ block.settings.link }}" class="block">
+            <img 
+              src="{{ block.settings.image | img_url: '400x400', crop: 'center' }}" 
+              alt="{{ block.settings.title }}" 
+              class="w-full h-[400px] object-cover"
+            >
+            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition"></div>
+            <div class="absolute bottom-6 left-6">
+              <h3 class="text-white text-2xl font-playfair">{{ block.settings.title }}</h3>
+              <span class="text-white underline mt-2 inline-block">{{ block.settings.button_text }}</span>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categories",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Shop By Category"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categories",
+      "blocks": [
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

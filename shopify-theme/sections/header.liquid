@@ -1,0 +1,49 @@
+<div class="bg-black text-white text-center py-2 text-sm">
+  {{ section.settings.announcement_text }}
+</div>
+
+<header class="bg-white shadow-sm">
+  <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+      <button class="lg:hidden">
+        <i class="fas fa-bars"></i>
+      </button>
+      <a href="/pages/track-order" class="text-sm hover:text-gray-600">Track Order</a>
+      <a href="/pages/return-exchange" class="text-sm hover:text-gray-600">Returns & Exchange</a>
+    </div>
+    <div class="text-center">
+      <a href="/" class="font-playfair text-3xl font-bold">{{ shop.name }}</a>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="/search" class="hover:text-gray-600"><i class="fas fa-search"></i></a>
+      <a href="/account" class="hover:text-gray-600"><i class="fas fa-user"></i></a>
+      <a href="/cart" class="hover:text-gray-600"><i class="fas fa-shopping-bag"></i></a>
+    </div>
+  </div>
+
+  <nav class="border-t border-gray-200">
+    <ul class="container mx-auto px-4 py-4 flex justify-center space-x-8 text-sm">
+      {% for link in linklists.main-menu.links %}
+        <li>
+          <a href="{{ link.url }}" class="hover:text-gray-600 {% if link.active %}font-medium{% endif %}">
+            {{ link.title | upcase }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Text",
+      "default": "Free Shipping on Orders Above ₹2999 | Easy Returns"
+    }
+  ]
+}
+{% endschema %}

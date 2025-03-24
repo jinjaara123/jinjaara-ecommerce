@@ -1,0 +1,111 @@
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <h4 class="font-playfair text-xl mb-4">About {{ shop.name }}</h4>
+        <p class="text-gray-400 text-sm">{{ section.settings.about_text }}</p>
+      </div>
+      <div>
+        <h4 class="font-playfair text-xl mb-4">Quick Links</h4>
+        <ul class="text-gray-400 text-sm space-y-2">
+          {% for link in linklists[section.settings.footer_menu_1].links %}
+            <li><a href="{{ link.url }}" class="hover:text-white">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-playfair text-xl mb-4">Customer Service</h4>
+        <ul class="text-gray-400 text-sm space-y-2">
+          {% for link in linklists[section.settings.footer_menu_2].links %}
+            <li><a href="{{ link.url }}" class="hover:text-white">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-playfair text-xl mb-4">Connect With Us</h4>
+        <div class="flex space-x-4 text-xl mb-4">
+          {% if section.settings.facebook_url != blank %}
+            <a href="{{ section.settings.facebook_url }}" class="hover:text-gray-400"><i class="fab fa-facebook"></i></a>
+          {% endif %}
+          {% if section.settings.instagram_url != blank %}
+            <a href="{{ section.settings.instagram_url }}" class="hover:text-gray-400"><i class="fab fa-instagram"></i></a>
+          {% endif %}
+          {% if section.settings.pinterest_url != blank %}
+            <a href="{{ section.settings.pinterest_url }}" class="hover:text-gray-400"><i class="fab fa-pinterest"></i></a>
+          {% endif %}
+          {% if section.settings.twitter_url != blank %}
+            <a href="{{ section.settings.twitter_url }}" class="hover:text-gray-400"><i class="fab fa-twitter"></i></a>
+          {% endif %}
+        </div>
+        <p class="text-gray-400 text-sm">{{ section.settings.newsletter_text }}</p>
+        {% form 'customer' %}
+          <div class="mt-4">
+            <input type="email" 
+                   name="contact[email]" 
+                   placeholder="Enter your email" 
+                   class="w-full bg-gray-800 text-white px-4 py-2 text-sm">
+          </div>
+        {% endform %}
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
+      <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. {{ section.settings.copyright_text }}</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "about_text",
+      "label": "About Text",
+      "default": "Modern ethnic wear that celebrates Indian craftsmanship with contemporary design sensibilities."
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_1",
+      "label": "Quick Links Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_2",
+      "label": "Customer Service Menu"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "Newsletter Text",
+      "default": "Subscribe to our newsletter for updates and exclusive offers."
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "All rights reserved."
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "pinterest_url",
+      "label": "Pinterest URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "Twitter URL"
+    }
+  ]
+}
+{% endschema %}
