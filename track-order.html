@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JINJAARA - Track Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="font-poppins">
+    <!-- Announcement Bar -->
+    <div class="bg-black text-white text-center py-2 text-sm">
+        Free Shipping on Orders Above ₹2999 | Easy Returns
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <!-- Top Navigation -->
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <button class="lg:hidden">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="track-order.html" class="text-sm hover:text-gray-600 font-medium">Track Order</a>
+                <a href="return-exchange.html" class="text-sm hover:text-gray-600">Returns & Exchange</a>
+            </div>
+            <div class="text-center">
+                <a href="index.html" class="font-playfair text-3xl font-bold">JINJAARA</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hover:text-gray-600"><i class="fas fa-search"></i></a>
+                <a href="#" class="hover:text-gray-600"><i class="fas fa-user"></i></a>
+                <a href="#" class="hover:text-gray-600"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+        </div>
+
+        <!-- Main Navigation -->
+        <nav class="border-t border-gray-200">
+            <ul class="container mx-auto px-4 py-4 flex justify-center space-x-8 text-sm">
+                <li><a href="index.html" class="hover:text-gray-600">HOME</a></li>
+                <li><a href="women.html" class="hover:text-gray-600">WOMEN</a></li>
+                <li><a href="men.html" class="hover:text-gray-600">MEN</a></li>
+                <li><a href="kids.html" class="hover:text-gray-600">KIDS</a></li>
+                <li><a href="jewellery.html" class="hover:text-gray-600">JEWELLERY</a></li>
+                <li><a href="blog.html" class="hover:text-gray-600">BLOG</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="min-h-screen bg-gray-50 py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto">
+                <!-- Page Title -->
+                <h1 class="font-playfair text-4xl text-center mb-8">Track Your Order</h1>
+                
+                <!-- Track Order Form -->
+                <div class="bg-white p-8 rounded-lg shadow-sm mb-8">
+                    <form class="space-y-6">
+                        <div>
+                            <label for="order-number" class="block text-sm font-medium text-gray-700 mb-2">Order Number</label>
+                            <input type="text" id="order-number" placeholder="Enter your order number" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="email" placeholder="Enter your email address"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent">
+                        </div>
+                        <button type="submit" class="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800 transition">
+                            Track Order
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Sample Order Status (Initially Hidden) -->
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h2 class="text-2xl font-medium mb-6">Order #JIN123456</h2>
+                    
+                    <!-- Order Timeline -->
+                    <div class="space-y-8">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium">Order Confirmed</h3>
+                                <p class="text-gray-500">Your order has been confirmed</p>
+                                <p class="text-sm text-gray-400">January 15, 2024 - 10:30 AM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium">Processing</h3>
+                                <p class="text-gray-500">Your order is being processed</p>
+                                <p class="text-sm text-gray-400">January 15, 2024 - 2:45 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-box text-white text-sm"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium">Shipped</h3>
+                                <p class="text-gray-500">Your order has been shipped</p>
+                                <p class="text-sm text-gray-400">January 16, 2024 - 11:20 AM</p>
+                                <p class="text-sm text-blue-500 mt-2">Tracking Number: SHIP987654321</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start opacity-50">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                                <i class="fas fa-home text-white text-sm"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium">Delivered</h3>
+                                <p class="text-gray-500">Estimated delivery by January 18, 2024</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Details -->
+                    <div class="mt-8 pt-8 border-t">
+                        <h3 class="text-xl font-medium mb-4">Order Details</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Shipping Address:</span>
+                                <span class="text-right">123 Main Street, Apartment 4B<br>New Delhi, 110001</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Order Date:</span>
+                                <span>January 15, 2024</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Payment Method:</span>
+                                <span>Credit Card ending in 4321</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="font-playfair text-xl mb-4">About JINJAARA</h4>
+                    <p class="text-gray-400 text-sm">Modern ethnic wear that celebrates Indian craftsmanship with contemporary design sensibilities.</p>
+                </div>
+                <div>
+                    <h4 class="font-playfair text-xl mb-4">Quick Links</h4>
+                    <ul class="text-gray-400 text-sm space-y-2">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Terms & Conditions</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-playfair text-xl mb-4">Customer Service</h4>
+                    <ul class="text-gray-400 text-sm space-y-2">
+                        <li><a href="track-order.html" class="hover:text-white">Track Order</a></li>
+                        <li><a href="return-exchange.html" class="hover:text-white">Returns & Exchange</a></li>
+                        <li><a href="#" class="hover:text-white">Shipping Policy</a></li>
+                        <li><a href="#" class="hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-playfair text-xl mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4 text-xl mb-4">
+                        <a href="#" class="hover:text-gray-400"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="hover:text-gray-400"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-gray-400"><i class="fab fa-pinterest"></i></a>
+                        <a href="#" class="hover:text-gray-400"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <p class="text-gray-400 text-sm">Subscribe to our newsletter for updates and exclusive offers.</p>
+                    <form class="mt-4">
+                        <input type="email" placeholder="Enter your email" class="w-full bg-gray-800 text-white px-4 py-2 text-sm">
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2024 JINJAARA. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
