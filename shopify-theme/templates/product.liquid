@@ -1,0 +1,92 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Product Images -->
+    <div class="relative">
+      <div class="aspect-w-1 aspect-h-1">
+        {{ product.featured_image | img_url: 'large' | img_tag: product.title, 'w-full h-full object-cover' }}
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="grid grid-cols-4 gap-2 mt-4">
+          {% for image in product.images %}
+            <button class="aspect-w-1 aspect-h-1">
+              {{ image | img_url: 'compact' | img_tag: product.title, 'w-full h-full object-cover' }}
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Info -->
+    <div>
+      <h1 class="text-3xl font-playfair mb-4">{{ product.title }}</h1>
+      <div class="text-2xl font-medium mb-4">{{ product.price | money }}</div>
+      
+      {% form 'product', product %}
+        <!-- Variant Selection -->
+        {% for option in product.options_with_values %}
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">{{ option.name }}</label>
+            <select name="id" class="w-full border border-gray-300 rounded px-3 py-2">
+              {% for value in option.values %}
+                <option value="{{ value }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endfor %}
+
+        <!-- Quantity -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-2">Quantity</label>
+          <input type="number" 
+                 name="quantity" 
+                 value="1" 
+                 min="1" 
+                 class="w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button type="submit" 
+                class="w-full bg-black text-white py-3 px-6 rounded hover:bg-gray-800 transition">
+          Add to Cart
+        </button>
+      {% endform %}
+
+      <!-- Product Description -->
+      <div class="mt-8 prose">
+        {{ product.description }}
+      </div>
+
+      <!-- Additional Details -->
+      <div class="mt-8">
+        <h3 class="text-lg font-medium mb-4">Product Details</h3>
+        <ul class="space-y-2">
+          <li><strong>SKU:</strong> {{ product.sku }}</li>
+          <li><strong>Type:</strong> {{ product.type }}</li>
+          <li><strong>Vendor:</strong> {{ product.vendor }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendations -->
+  {% if recommendations.performed %}
+    <div class="mt-16">
+      <h2 class="text-2xl font-playfair text-center mb-8">You May Also Like</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {% for product in recommendations.products %}
+          <div class="group">
+            <a href="{{ product.url }}" class="block">
+              <div class="relative overflow-hidden">
+                {{ product.featured_image | img_url: '400x400', crop: 'center' | img_tag: product.title, 'w-full h-[400px] object-cover group-hover:scale-105 transition duration-500' }}
+              </div>
+              <div class="mt-4">
+                <h3 class="font-medium">{{ product.title }}</h3>
+                <p class="text-gray-600">{{ product.price | money }}</p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,191 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-playfair text-center mb-8">Addresses</h1>
+
+    <!-- Add New Address Button -->
+    <div class="text-right mb-8">
+      <button onclick="toggleAddressForm('new')" 
+              class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">
+        Add New Address
+      </button>
+    </div>
+
+    <!-- New Address Form -->
+    <div id="address_form_new" class="hidden mb-8">
+      {% form 'customer_address', customer.new_address %}
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <h2 class="text-2xl font-playfair mb-6">New Address</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">First Name</label>
+              <input type="text" 
+                     name="address[first_name]" 
+                     value="{{ form.first_name }}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Last Name</label>
+              <input type="text" 
+                     name="address[last_name]" 
+                     value="{{ form.last_name }}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Company</label>
+              <input type="text" 
+                     name="address[company]" 
+                     value="{{ form.company }}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Phone</label>
+              <input type="tel" 
+                     name="address[phone]" 
+                     value="{{ form.phone }}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium mb-2">Address</label>
+              <input type="text" 
+                     name="address[address1]" 
+                     value="{{ form.address1 }}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black mb-2">
+              <input type="text" 
+                     name="address[address2]" 
+                     value="{{ form.address2 }}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">City</label>
+              <input type="text" 
+                     name="address[city]" 
+                     value="{{ form.city }}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Country</label>
+              <select name="address[country]" 
+                      data-address-country-select 
+                      data-default="{{ form.country }}"
+                      class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+                {{ all_country_option_tags }}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">State/Province</label>
+              <select name="address[province]" 
+                      data-address-province-select 
+                      data-default="{{ form.province }}"
+                      class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Postal/Zip Code</label>
+              <input type="text" 
+                     name="address[zip]" 
+                     value="{{ form.zip }}"
+                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center">
+            <input type="checkbox" 
+                   name="address[default]" 
+                   id="address_default_new" 
+                   value="1"
+                   class="mr-2">
+            <label for="address_default_new">Set as default address</label>
+          </div>
+
+          <div class="mt-6 flex justify-end space-x-4">
+            <button type="submit" 
+                    class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">
+              Add Address
+            </button>
+            <button type="button" 
+                    onclick="toggleAddressForm('new')"
+                    class="px-6 py-2 border border-gray-300 rounded hover:border-gray-400">
+              Cancel
+            </button>
+          </div>
+        </div>
+      {% endform %}
+    </div>
+
+    <!-- Existing Addresses -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {% for address in customer.addresses %}
+        <div id="address_{{ address.id }}" class="bg-white p-6 rounded-lg shadow-sm">
+          {% if address == customer.default_address %}
+            <div class="text-sm text-green-600 mb-2">Default Address</div>
+          {% endif %}
+
+          <div class="mb-4">
+            {{ address | format_address }}
+          </div>
+
+          <div class="flex space-x-4">
+            <button onclick="toggleAddressForm('{{ address.id }}')"
+                    class="text-black hover:text-gray-600">
+              Edit
+            </button>
+            <form method="post" action="/account/addresses/{{ address.id }}" class="inline">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" 
+                      class="text-red-600 hover:text-red-800"
+                      onclick="return confirm('Are you sure you want to delete this address?')">
+                Delete
+              </button>
+            </form>
+            {% unless address == customer.default_address %}
+              <form method="post" action="/account/addresses/{{ address.id }}" class="inline">
+                <input type="hidden" name="address[default]" value="1">
+                <button type="submit" class="text-black hover:text-gray-600">
+                  Set as Default
+                </button>
+              </form>
+            {% endunless %}
+          </div>
+
+          <!-- Edit Address Form -->
+          <div id="edit_address_{{ address.id }}" class="hidden mt-4">
+            {% form 'customer_address', address %}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Same form fields as new address form -->
+                <!-- ... -->
+              </div>
+
+              <div class="mt-6 flex justify-end space-x-4">
+                <button type="submit" 
+                        class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">
+                  Update Address
+                </button>
+                <button type="button" 
+                        onclick="toggleAddressForm('{{ address.id }}')"
+                        class="px-6 py-2 border border-gray-300 rounded hover:border-gray-400">
+                  Cancel
+                </button>
+              </div>
+            {% endform %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleAddressForm(id) {
+    const form = document.getElementById(`address_form_${id}`);
+    form.classList.toggle('hidden');
+  }
+</script>

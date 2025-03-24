@@ -1,0 +1,96 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Search Header -->
+  <div class="max-w-2xl mx-auto mb-8">
+    <form action="/search" method="get" class="flex gap-2">
+      <input type="text"
+             name="q"
+             value="{{ search.terms | escape }}"
+             placeholder="Search products..."
+             class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black">
+      <button type="submit" 
+              class="px-6 py-2 bg-black text-white rounded hover:bg-gray-800 transition">
+        Search
+      </button>
+    </form>
+  </div>
+
+  {% if search.performed %}
+    <!-- Search Results -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-playfair mb-2">
+        {% if search.results_count > 0 %}
+          {{ search.results_count }} result{% if search.results_count > 1 %}s{% endif %} for "{{ search.terms | escape }}"
+        {% else %}
+          No results found for "{{ search.terms | escape }}"
+        {% endif %}
+      </h1>
+    </div>
+
+    {% if search.results_count > 0 %}
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for item in search.results %}
+          {% if item.object_type == 'product' %}
+            <div class="group">
+              <a href="{{ item.url }}" class="block">
+                <div class="relative overflow-hidden">
+                  {{ item.featured_image | img_url: '400x400', crop: 'center' | img_tag: item.title, 'w-full h-[400px] object-cover group-hover:scale-105 transition duration-500' }}
+                  <div class="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
+                    <button class="w-full bg-black text-white py-2 hover:bg-gray-800">Quick View</button>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <h3 class="font-medium">{{ item.title }}</h3>
+                  <p class="text-gray-600">{{ item.price | money }}</p>
+                </div>
+              </a>
+            </div>
+          {% elsif item.object_type == 'article' %}
+            <div class="col-span-full md:col-span-2 lg:col-span-3 bg-gray-50 p-6 rounded">
+              <h3 class="text-xl font-playfair mb-2">
+                <a href="{{ item.url }}" class="hover:text-gray-600">{{ item.title }}</a>
+              </h3>
+              <p class="text-gray-600 mb-4">{{ item.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+              <a href="{{ item.url }}" class="text-black hover:text-gray-600">Read more →</a>
+            </div>
+          {% elsif item.object_type == 'page' %}
+            <div class="col-span-full bg-gray-50 p-6 rounded">
+              <h3 class="text-xl font-playfair mb-2">
+                <a href="{{ item.url }}" class="hover:text-gray-600">{{ item.title }}</a>
+              </h3>
+              <p class="text-gray-600">{{ item.content | strip_html | truncatewords: 30 }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Pagination -->
+      {% if paginate.pages > 1 %}
+        <div class="flex justify-center space-x-2 mt-12">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="px-4 py-2 border border-gray-300 rounded hover:border-gray-400">
+              Previous
+            </a>
+          {% endif %}
+
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <a href="{{ part.url }}" class="px-4 py-2 border border-gray-300 rounded hover:border-gray-400">
+                {{ part.title }}
+              </a>
+            {% else %}
+              <span class="px-4 py-2 border border-black bg-black text-white rounded">
+                {{ part.title }}
+              </span>
+            {% endif %}
+          {% endfor %}
+
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="px-4 py-2 border border-gray-300 rounded hover:border-gray-400">
+              Next
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+</div>

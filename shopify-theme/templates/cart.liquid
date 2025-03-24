@@ -1,0 +1,109 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-playfair mb-8">Shopping Cart</h1>
+
+  {% if cart.item_count > 0 %}
+    <form action="/cart" method="post" novalidate>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2">
+          {% for item in cart.items %}
+            <div class="flex items-center py-4 border-b border-gray-200">
+              <!-- Product Image -->
+              <div class="w-24 h-24 flex-shrink-0">
+                {{ item.image | img_url: '120x120', crop: 'center' | img_tag: item.title, 'w-full h-full object-cover' }}
+              </div>
+
+              <!-- Product Info -->
+              <div class="flex-grow ml-4">
+                <h3 class="font-medium">
+                  <a href="{{ item.url }}" class="hover:text-gray-600">{{ item.title }}</a>
+                </h3>
+                {% if item.variant.title != 'Default Title' %}
+                  <p class="text-sm text-gray-600">{{ item.variant.title }}</p>
+                {% endif %}
+                <p class="text-gray-600">{{ item.price | money }}</p>
+              </div>
+
+              <!-- Quantity -->
+              <div class="flex items-center ml-4">
+                <input type="number" 
+                       name="updates[]" 
+                       value="{{ item.quantity }}" 
+                       min="0"
+                       class="w-16 px-2 py-1 border border-gray-300 rounded text-center">
+              </div>
+
+              <!-- Remove -->
+              <a href="/cart/change?line={{ forloop.index }}&quantity=0" 
+                 class="ml-4 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-trash"></i>
+              </a>
+            </div>
+          {% endfor %}
+
+          <!-- Cart Actions -->
+          <div class="flex justify-between items-center mt-4">
+            <div class="flex space-x-4">
+              <button type="submit" 
+                      name="update" 
+                      class="px-4 py-2 border border-gray-300 rounded hover:border-gray-400">
+                Update Cart
+              </button>
+              <a href="/collections/all" 
+                 class="px-4 py-2 border border-gray-300 rounded hover:border-gray-400">
+                Continue Shopping
+              </a>
+            </div>
+            <button type="submit" 
+                    name="clear" 
+                    class="text-gray-500 hover:text-gray-700">
+              Clear Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="bg-gray-50 p-6 rounded">
+          <h2 class="text-xl font-medium mb-4">Order Summary</h2>
+          
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between">
+              <span>Subtotal</span>
+              <span>{{ cart.total_price | money }}</span>
+            </div>
+            {% if cart.total_discounts > 0 %}
+              <div class="flex justify-between text-green-600">
+                <span>Discounts</span>
+                <span>-{{ cart.total_discounts | money }}</span>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="border-t border-gray-200 pt-4 mb-4">
+            <div class="flex justify-between font-medium">
+              <span>Total</span>
+              <span>{{ cart.total_price | money }}</span>
+            </div>
+          </div>
+
+          <button type="submit" 
+                  name="checkout" 
+                  class="w-full bg-black text-white py-3 px-6 rounded hover:bg-gray-800 transition">
+            Checkout
+          </button>
+
+          <!-- Additional payment buttons -->
+          {{ content_for_additional_checkout_buttons }}
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <div class="text-center py-12">
+      <p class="text-gray-600 mb-4">Your cart is currently empty.</p>
+      <a href="/collections/all" 
+         class="inline-block bg-black text-white px-8 py-3 rounded hover:bg-gray-800 transition">
+        Start Shopping
+      </a>
+    </div>
+  {% endif %}
+</div>
